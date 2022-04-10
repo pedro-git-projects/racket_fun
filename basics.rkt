@@ -133,3 +133,112 @@ p
 
 ;;;;;;;;;;;;;; Strings and Things ;;;;;;;;;;;;;;;;;;;; 
 
+;;;;;; Characters ;;;;;;
+#\A ; literal character
+#\u0041 ; unicode character
+#\ ; space character
+#\u0020 ;also space
+
+(char->integer #\u0041) ; from hex to int
+(integer->char 65) ; as 65 is \u0041 this will give us A
+(char-alphabetic? #\a) ; #t
+(char-alphabetic? #\1) ; #f
+(char-numeric? #\1) ; #t
+(char-numeric? #\a) ; #f
+
+'(#\u2660 #\u2663 #\u2665 #\u2666) ; unicode characters that are emojis/symbols
+
+
+;;;;;; Strings ;;;;;;;
+
+"This is a string"
+
+"Happy: \u263a" ; unicode can be embedded in strings
+
+(string-append "My metal face " "mask" " with a built in crown") ; appending
+
+(string-ref "abcdef" 2) ; accessing characters withing a string
+(string-ref "abcdef" 1) ; strings are zero indexed 
+
+(define mutableString (string #\I #\ #\a #\m #\ #\m #\u #\t #\a #\b #\l #\e)) ; we have to use characters 
+mutableString ; defining a mutable string with the string function
+
+; Mutating the characters of our mutable string
+(string-set! mutableString 5 #\a)
+(string-set! mutableString 6 #\ )
+mutableString
+
+; another way of defining mutable strings
+(define mstr (string-copy "I am also mutable"))
+(string-set! mstr 5 #\space )
+(string-set! mstr 6 #\space )
+mstr
+
+; yet another mutable string
+(define exes (make-string 10 #\X))
+(string-set! exes 5 #\O)
+exes
+
+
+;;;;;;;;;;;;;; Useful String Functions ;;;;;;;;;;;;;;;;;;;; 
+
+(string-length mutableString) ; evaluates to the number of characters
+
+(substring mutableString 7 12) ; characters 7-11
+
+(string-titlecase mutableString) ; capitalizes the first character of each word
+
+(string-upcase "big")
+(string-downcase "SMALL")
+
+(string<=? "big" "small") ; alphabetical comparison
+(string>=? "big" "small") 
+
+(string=? "big" "small") ; #f
+(string=? "big" "big") ; #t
+
+(define nietzche-quote "Without music, life would be a mistake")
+(string-replace nietzche-quote "music" "racket") ; replacement
+nietzche-quote
+
+(string-contains? nietzche-quote "would") ; #t
+(string-contains? nietzche-quote "Would") ; #f
+
+(string-split nietzche-quote) 
+(string-split nietzche-quote ",") ; split using separator
+nietzche-quote ; note how this doesnt alter the value of the original string
+
+(string-trim "    hello    ")
+(string-trim "    hello    " #:right? #f)
+(string-trim "    hello    " #:left? #f)
+
+
+;;;;;;;;;;;;; String Conversion and Formatting Functions ;;;;;;;;;;;;;;;;;;;
+
+(symbol->string 'FBI) ; "FBI"
+
+(string->symbol "FBI") ; 'FBI
+
+(list->string '(#\x #\y #\z)) ;"xyz"
+
+(string->list "xyz") ; (#\x #\y #\z)
+
+(string->keyword "string->keyword") ; #:string->keyword
+
+(keyword->string '#:keyword) ; "keyword"
+
+; within the format statement ~a acts as a placeholder
+(format "let ~a = ~a" "x" 2) ; 2 is automatically converted to a string 
+(format "~a ~a ~a" "testing" "this" "thing")
+
+; to simply convert a nubmer to a string
+(number->string pi)
+; conversely
+(string->number "3.14159265389793")
+
+(string->number "five") ; #f
+
+; for more control we can use the ~r function
+(~r pi #:precision 4)
+(~r pi #:min-width 20 #:precision 4 #:pad-string "*")
+
