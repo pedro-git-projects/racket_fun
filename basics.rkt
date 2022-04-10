@@ -242,3 +242,40 @@ nietzche-quote ; note how this doesnt alter the value of the original string
 (~r pi #:precision 4)
 (~r pi #:min-width 20 #:precision 4 #:pad-string "*")
 
+
+;;;;;;;;;;;;; Vectors ;;;;;;;;;;;;;;;;;;;;;
+
+; vector declarations
+(vector 1 3 "d" 'a 2)
+#(1 3 "d" 'a 2)
+
+; as with lists, they are not equivalent
+(vector 1 2 pi)
+#(1 2 pi)
+
+(define vec (vector 'alpha 'beta 'gamma))
+(vector-ref vec 1) ; acessing vector via index
+
+(vector-set! vec 2 'sigma) ; assigning a value to a vector cell
+vec
+
+(define u #(alpha beta gamma))
+; (vector-set! u 2 'error) this line will error out because # is an alias for vector-immutable
+; vectors created with vector on the other hand are mutable
+
+;;;;;;;;;;;;;;;;;;;;;; Useful Vector Functions ;;;;;;;;;;;;;;;;;;;;;; 
+
+(vector-length #(one ringy dingy)) ; 3
+
+(vector-sort #(9 1 2 8 5 6 7 0 4 6)<)
+(vector-sort #(9 1 2 8 5 6 7 0 4 6)>)
+
+(vector->list #(who the fuck do you think I am ?))
+
+(list->vector '(my awesome list))
+
+(make-vector 10 'it_goes ) ; creates a mutable vector
+
+(vector-append #(metal face) #(doom))
+
+(vector-member 'waldo (vector 'where 'is 'waldo '?))
